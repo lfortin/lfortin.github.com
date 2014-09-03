@@ -1,0 +1,21 @@
+
+#wrapper {
+    text-align: left;
+    top: 120px;
+    left: 20%;
+    position: fixed;
+    display: none;
+}
+
+#wrapper p {
+
+}
+
+#wrapper p span {
+    font-size: 20px;
+    font-family: Georgia;
+}
+
+#wrapper p span a {
+
+}
