@@ -1,46 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Laurent Fortin - Web Developer and JavaScript Specialist</title>
     <style type="text/css">
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f0f0f0;
-        }
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+      }
+      .centered-div {
+        background-color: rgb(212, 223, 252);
+        border-radius: 15px;
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        text-align: left;
+        font-size: 20px;
+      }
+
+      @media (max-width: 600px) {
         .centered-div {
-            background-color: rgb(212, 223, 252);
-            border-radius: 15px;
-            padding: 20px;
-            width: 80%;
-            max-width: 600px;
-            text-align: left;
-            font-size: 20px;
+          padding: 15px;
+          font-size: 14px;
+        }
+      }
     </style>
     <script src="qrcode.js"></script>
-</head>
-<body>
-  <div class="centered-div">
+  </head>
+  <body>
+    <div class="centered-div">
       <h2>Laurent Fortin</h2>
       <h3>Web Developer and JavaScript Specialist</h3>
       <p>
-        Email: <a href="mailto:laurent.fortin@gmail.com">laurent.fortin@gmail.com</a><br />
-        GitHub: <a href="https://github.com/lfortin" target="_blank">https://github.com/lfortin</a><br />
-        LinkedIn: <a href="https://www.linkedin.com/in/laurent-fortin-7095043" target="_blank">https://www.linkedin.com/in/laurent-fortin-7095043</a><br /><br />
+        Email:
+        <a href="mailto:laurent.fortin@gmail.com">laurent.fortin@gmail.com</a
+        ><br />
+        GitHub:
+        <a href="https://github.com/lfortin" target="_blank"
+          >https://github.com/lfortin</a
+        ><br />
+        LinkedIn:
+        <a
+          href="https://www.linkedin.com/in/laurent-fortin-7095043"
+          target="_blank"
+          >https://www.linkedin.com/in/laurent-fortin-7095043</a
+        ><br /><br />
         <canvas id="canvas"></canvas>
       </p>
-  </div>
-  <script type="application/javascript">
-    QRCode.toCanvas(document.getElementById('canvas'), 'https://www.linkedin.com/in/laurent-fortin-7095043', function (error) {
-      if (error) {
-        console.error(error);
-      }
-    });
-  </script>
-</body>
+    </div>
+    <script type="application/javascript">
+      QRCode.toCanvas(
+        document.getElementById("canvas"),
+        "https://www.linkedin.com/in/laurent-fortin-7095043",
+        function (error) {
+          if (error) {
+            console.error(error);
+          }
+        }
+      );
+    </script>
+  </body>
 </html>
