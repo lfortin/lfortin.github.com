@@ -215,31 +215,31 @@
         
         <h2 id="basic-usage">Basic Usage</h2>
         <p>Here’s an example of how to set up a CGI server with <code>cgi-core</code>:</p>
-        <pre><code class="language-javascript">import {{ createServer }} from "node:http";
-import {{ createHandler }} from "cgi-core";
+        <pre><code class="language-javascript">import { createServer } from "node:http";
+import { createHandler } from "cgi-core";
 
 // create a http server that handles CGI requests under the url path /cgi-bin
 
-const handler = createHandler({{
+const handler = createHandler({
   urlPath: "/cgi-bin",
   filePath: "./cgi-bin",
-  extensions: {{
+  extensions: {
     "/usr/bin/perl": ["pl", "cgi"],
     "/usr/bin/python": ["py"],
     "/usr/local/bin/node": ["js", "node"],
-  }},
+  },
   debugOutput: false,
-}});
+});
 
-const app = createServer(async (req, res) => {{
+const app = createServer(async (req, res) => {
   const requestHandled = await handler(req, res);
 
-  if (!requestHandled) {{
+  if (!requestHandled) {
     // here, handle any routing outside of urlPath === '/cgi-bin'
-    res.writeHead(200, {{ "Content-Type": "text/plain" }});
+    res.writeHead(200, { "Content-Type": "text/plain" });
     res.end("outside of urlPath");
-  }}
-}});
+  }
+});
 app.listen(3000);</code></pre>
         <p>Usage example using <a href="https://github.com/lfortin/node-cgi-core/blob/master/docs/express.md">Express</a>.</p>
         
@@ -255,18 +255,18 @@ app.listen(3000);</code></pre>
         <p>Object containing file extension values for given interpreter paths. If no interpreter path is found for a file extension, the CGI script will be called as a standalone executable.</p>
         <p>Default:</p>
         <pre><code class="language-javascript">// on POSIX systems
-{{
+{
   "/usr/bin/perl": ["pl", "cgi"],
   "/usr/bin/python": ["py"],
   "/usr/local/bin/node": ["js", "node"]
-}}
+}
 
 // on Windows systems
-{{
+{
   "perl": ["pl", "cgi"],
   "python": ["py"],
   "node": ["js", "node"]
-}}</code></pre>
+}</code></pre>
         <div class="alert-note">
             <p><strong>Note:</strong> On Windows, using an <strong>absolute path</strong> for the interpreter (e.g., <code>C:\Program Files\Perl\perl.exe</code>) is recommended for <strong>better performance and reliability</strong>. Relative paths (like <code>perl</code>) require shell resolution, which adds overhead and may fail in certain environments.</p>
         </div>
@@ -293,39 +293,39 @@ app.listen(3000);</code></pre>
         <p>Timeout delay for the HTTP request in milliseconds. If the request takes longer than the specified time, the server will respond with a <code>504 Gateway Timeout</code> error. Default: <code>30000</code> (30 seconds)</p>
         
         <h3>statusPages</h3>
-        <p>Object containing custom HTTP response payloads per status code. Default: <code>{{}}</code></p>
+        <p>Object containing custom HTTP response payloads per status code. Default: <code>{}</code></p>
         <pre><code class="language-javascript">// Example:
-{{
-  404: {{
+{
+  404: {
     content: `&lt;html&gt;
                 &lt;body&gt;404: File not found&lt;/body&gt;
               &lt;/html&gt;`,
     contentType: "text/html"
-  }},
-  500: {{
+  },
+  500: {
     content: `&lt;html&gt;
                 &lt;body&gt;500: Internal server error&lt;/body&gt;
               &lt;/html&gt;`,
     contentType: "text/html"
-  }}
-}}</code></pre>
+  }
+}</code></pre>
         
         <h3>env</h3>
-        <p>Object containing custom environment variables to pass to the CGI scripts. Default: <code>{{}}</code></p>
+        <p>Object containing custom environment variables to pass to the CGI scripts. Default: <code>{}</code></p>
         <pre><code class="language-javascript">// Example:
-{{
+{
   SERVER_ADMIN: "admin@example.com",
   ANOTHER_VAR: "another value"
-}}</code></pre>
+}</code></pre>
         <p>An updater function can also be passed to the <code>env</code> option to update the environment variables on each request. It gets the environment variables object and the incoming HTTP request as arguments.</p>
         <pre><code class="language-javascript">// Example:
-(env, req) => {{
-  return {{
+(env, req) => {
+  return {
     SERVER_ADMIN: "admin@example.com",
     ANOTHER_VAR: "another value",
     VALUE_FROM_REQUEST: req.headers["x-custom-header"],
-  }};
-}}</code></pre>
+  };
+}</code></pre>
         
         <h3>trustProxy</h3>
         <p>Set to <code>true</code> to trust proxy-related HTTP headers (<code>X-Forwarded-For</code>, <code>X-Forwarded-Proto</code>, and <code>Host</code>). This affects CGI environment variables such as:</p>
