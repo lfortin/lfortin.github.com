@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cgi-core Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            background-color: #f6f8fa;
+            color: #24292e;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            border-right: 1px solid #e1e4e8;
+        }
+        
+        .sidebar a {
+            display: block;
+            color: #0366d6;
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .sidebar a:hover {
+            background-color: #f1f8ff;
+        }
+        
+        .sidebar a.active {
+            background-color: #e1e8ed;
+            font-weight: 600;
+        }
+        
+        .sidebar h3 {
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #586069;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 20px 20px 20px 100px;
+            flex-grow: 1;
+        }
+        
+        h1, h2, h3, h4 {
+            color: #000;
+        }
+        
+        pre {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 14px;
+        }
+        
+        .code-block {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .alert-note {
+            background-color: #fffbdd;
+            border-left: 4px solid #f6c101;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .alert-warning {
+            background-color: #fff5f5;
+            border-left: 4px solid #d73a49;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .alert-note p, .alert-warning p {
+            margin: 0;
+        }
+
+        /* GitHub Ribbon */
+        .github-ribbon {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 9999;
+        }
+        .github-ribbon img {
+            border: 0;
+        }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding-top: 60px; /* Add space for the fixed header */
+            }
+
+            .sidebar {
+                width: 100%;
+                position: fixed; /* Make the sidebar fixed on top */
+                top: 0;
+                left: 0;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e1e4e8;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                overflow-x: auto; /* Allow horizontal scrolling */
+                overflow-y: hidden; /* Hide vertical scrolling */
+                white-space: nowrap; /* Prevent wrapping of links */
+                z-index: 1000;
+                padding: 10px 20px;
+            }
+            
+            .sidebar h3 {
+                display: none;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="github-ribbon" href="https://github.com/lfortin/node-cgi-core">
+        <img loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" alt="Fork me on GitHub" data-recalc-dims="1">
+    </a>
+
+    <div class="sidebar">
+        <a href="#introduction">Introduction</a>
+        <a href="#features">Features</a>
+        <a href="#why-cgi-core">Why cgi-core?</a>
+        <a href="#getting-started">Getting Started</a>
+        <a href="#basic-usage">Basic Usage</a>
+        <a href="#configuration-options">Configuration Options</a>
+        <a href="#cli">Command Line Interface</a>
+        <a href="#env-variables">Environment Variables</a>
+        <a href="#reverse-proxy">Reverse Proxy</a>
+        <a href="#license">License</a>
+    </div>
+
+    <div class="main-content">
+        <p align="center">
+            <img src="https://github.com/lfortin/node-cgi-core/blob/master/images/logo.jpg?raw=true" height="120">
+        </p>
+        
+        <h1 align="center" id="introduction">cgi-core</h1>
+        <p align="center">
+            A lightweight, zero-dependency middleware for hosting <a href="https://github.com/lfortin/node-cgi-core/blob/master/docs/sample-scripts.md">CGI scripts</a> with HTTP/1.1 support. Aims to support The Common Gateway Interface (CGI) Version 1.1 as defined in <a href="https://www.ietf.org/rfc/rfc3875.txt">RFC 3875</a>.<br>
+            <br>
+            Released under the <a href="https://opensource.org/license/mit">MIT License</a>.
+        </p>
+
+        <p align="center">
+            <img src="https://github.com/lfortin/node-cgi-core/actions/workflows/node.js.yml/badge.svg?event=push" alt="Node.js (install and test)">
+        </p>
+        
+        <h2 id="features">Features</h2>
+        <ul>
+            <li>⚡ Zero dependency — no external packages required</li>
+            <li>🌐 Full HTTP/1.1 support</li>
+            <li>🧩 Simple middleware for handling CGI routes</li>
+            <li>🛠️ Run from the CLI or embed directly in Node.js apps</li>
+            <li>⚙️ Supports CGI scripts in any language (Perl, Python, Bash, Node.js, etc.)</li>
+            <li>🔧 Fully configurable: timeouts, chunk sizes, environment variables, and more</li>
+            <li>📜 Custom error/status pages per HTTP status code</li>
+            <li>🛡️ Built-in path sanitization and error handling for safer execution</li>
+        </ul>
+        
+        <h2 id="why-cgi-core">Why cgi-core?</h2>
+        <p>Use <code>cgi-core</code> when you need:</p>
+        <ul>
+            <li>✅ <strong>A quick, local solution for hosting CGI scripts</strong> — Ideal for development environments or testing legacy scripts without setting up a full web server.</li>
+            <li>🚀 <strong>An alternative to Apache for CGI hosting</strong> — Lightweight and easier to configure, especially when you don’t need the full overhead of traditional web servers.</li>
+            <li>🔗 <strong>Seamless integration of legacy CGI scripts in modern Node.js apps</strong> — Embed CGI support directly in a Node.js or Express HTTP server, without external dependencies.</li>
+        </ul>
+        <p>Whether you're debugging old Perl or Python scripts, prototyping a local CGI tool, or maintaining legacy infrastructure, <code>cgi-core</code> gives you a simple, modern, and flexible way to run CGI — all in pure Node.js.</p>
+        
+        <h2 id="getting-started">Getting Started</h2>
+        <p>Install the latest stable version of <code>cgi-core</code>:</p>
+        <pre><code>npm install cgi-core</code></pre>
+        <p>Then, start a CGI server:</p>
+        <pre><code>npx cgi-server --filePath ./cgi-bin</code></pre>
+        
+        <h2 id="basic-usage">Basic Usage</h2>
+        <p>Here’s an example of how to set up a CGI server with <code>cgi-core</code>:</p>
+        <pre><code class="language-javascript">import {{ createServer }} from "node:http";
+import {{ createHandler }} from "cgi-core";
+
+// create a http server that handles CGI requests under the url path /cgi-bin
+
+const handler = createHandler({{
+  urlPath: "/cgi-bin",
+  filePath: "./cgi-bin",
+  extensions: {{
+    "/usr/bin/perl": ["pl", "cgi"],
+    "/usr/bin/python": ["py"],
+    "/usr/local/bin/node": ["js", "node"],
+  }},
+  debugOutput: false,
+}});
+
+const app = createServer(async (req, res) => {{
+  const requestHandled = await handler(req, res);
+
+  if (!requestHandled) {{
+    // here, handle any routing outside of urlPath === '/cgi-bin'
+    res.writeHead(200, {{ "Content-Type": "text/plain" }});
+    res.end("outside of urlPath");
+  }}
+}});
+app.listen(3000);</code></pre>
+        <p>Usage example using <a href="https://github.com/lfortin/node-cgi-core/blob/master/docs/express.md">Express</a>.</p>
+        
+        <h2 id="configuration-options">Configuration options</h2>
+        
+        <h3>urlPath</h3>
+        <p>Base url for routing. Default: <code>'/cgi-bin'</code></p>
+        
+        <h3>filePath</h3>
+        <p>File path where the CGI scripts are located. It is strongly advised to set a value for <code>filePath</code> (example: <code>'./cgi-bin'</code>). Default: <code>process.cwd()</code></p>
+        
+        <h3>extensions</h3>
+        <p>Object containing file extension values for given interpreter paths. If no interpreter path is found for a file extension, the CGI script will be called as a standalone executable.</p>
+        <p>Default:</p>
+        <pre><code class="language-javascript">// on POSIX systems
+{{
+  "/usr/bin/perl": ["pl", "cgi"],
+  "/usr/bin/python": ["py"],
+  "/usr/local/bin/node": ["js", "node"]
+}}
+
+// on Windows systems
+{{
+  "perl": ["pl", "cgi"],
+  "python": ["py"],
+  "node": ["js", "node"]
+}}</code></pre>
+        <div class="alert-note">
+            <p><strong>Note:</strong> On Windows, using an <strong>absolute path</strong> for the interpreter (e.g., <code>C:\Program Files\Perl\perl.exe</code>) is recommended for <strong>better performance and reliability</strong>. Relative paths (like <code>perl</code>) require shell resolution, which adds overhead and may fail in certain environments.</p>
+        </div>
+        
+        <h3>indexExtension</h3>
+        <p>File extension to lookup for an index CGI script in any given directory. Default: <code>'js'</code></p>
+        
+        <h3>debugOutput</h3>
+        <p>Set true to enable debug output. Default: <code>false</code></p>
+        
+        <h3>logRequests</h3>
+        <p>Set true to print HTTP request logs to STDOUT. Default: <code>false</code></p>
+        
+        <h3>maxBuffer</h3>
+        <p>Size of the allowed HTTP request and response payloads in bytes. Default: <code>2 * 1024 * 1024</code> (2 MB)</p>
+        
+        <h3>requestChunkSize</h3>
+        <p>Size of the HTTP request payload data chunks in bytes, used for internal buffering when reading request data. Default: <code>32 * 1024</code> (32 KB)</p>
+        
+        <h3>responseChunkSize</h3>
+        <p>Size of the HTTP response payload data chunks in bytes, applicable when <code>Transfer-Encoding: chunked</code> is used. If <code>Content-Length</code> is set, chunking is disabled, and the response is sent as a single block. Default: <code>32 * 1024</code> (32 KB)</p>
+        
+        <h3>requestTimeout</h3>
+        <p>Timeout delay for the HTTP request in milliseconds. If the request takes longer than the specified time, the server will respond with a <code>504 Gateway Timeout</code> error. Default: <code>30000</code> (30 seconds)</p>
+        
+        <h3>statusPages</h3>
+        <p>Object containing custom HTTP response payloads per status code. Default: <code>{{}}</code></p>
+        <pre><code class="language-javascript">// Example:
+{{
+  404: {{
+    content: `&lt;html&gt;
+                &lt;body&gt;404: File not found&lt;/body&gt;
+              &lt;/html&gt;`,
+    contentType: "text/html"
+  }},
+  500: {{
+    content: `&lt;html&gt;
+                &lt;body&gt;500: Internal server error&lt;/body&gt;
+              &lt;/html&gt;`,
+    contentType: "text/html"
+  }}
+}}</code></pre>
+        
+        <h3>env</h3>
+        <p>Object containing custom environment variables to pass to the CGI scripts. Default: <code>{{}}</code></p>
+        <pre><code class="language-javascript">// Example:
+{{
+  SERVER_ADMIN: "admin@example.com",
+  ANOTHER_VAR: "another value"
+}}</code></pre>
+        <p>An updater function can also be passed to the <code>env</code> option to update the environment variables on each request. It gets the environment variables object and the incoming HTTP request as arguments.</p>
+        <pre><code class="language-javascript">// Example:
+(env, req) => {{
+  return {{
+    SERVER_ADMIN: "admin@example.com",
+    ANOTHER_VAR: "another value",
+    VALUE_FROM_REQUEST: req.headers["x-custom-header"],
+  }};
+}}</code></pre>
+        
+        <h3>trustProxy</h3>
+        <p>Set to <code>true</code> to trust proxy-related HTTP headers (<code>X-Forwarded-For</code>, <code>X-Forwarded-Proto</code>, and <code>Host</code>). This affects CGI environment variables such as:</p>
+        <ul>
+            <li><code>REMOTE_ADDR</code> — will use the leftmost IP in <code>X-Forwarded-For</code></li>
+            <li><code>HTTPS</code> — will be <code>"on"</code> if <code>X-Forwarded-Proto</code> is <code>"https"</code></li>
+            <li><code>SERVER_NAME</code> and <code>SERVER_PORT</code> — will be parsed from the <code>Host</code> header</li>
+        </ul>
+        <p>Default: <code>false</code></p>
+        <div class="alert-warning">
+            <p><strong>Important:</strong> Only enable this if you are <strong>running behind a trusted reverse proxy</strong> (like Nginx or a load balancer). Enabling <code>trustProxy</code> when exposed to the public internet can allow <strong>header spoofing</strong> by clients.</p>
+        </div>
+        
+        <h2 id="cli">Start a CGI Server from the Command Line</h2>
+        <p>The command <code>cgi-server</code> can be used to run an HTTP server to serve CGI scripts.</p>
+        <pre><code>npx cgi-server --port 3001 --urlPath /cgi-bin --filePath ./cgi-bin</code></pre>
+        
+        <h3>Available arguments</h3>
+        <pre><code>  -h, --help                    Display help
+  -v, --version                 Display cgi-core version string
+
+  --urlPath &lt;urlPath&gt;           Set base url path for routing
+  --filePath &lt;filePath&gt;         Set file path where the CGI scripts are located
+  -p, --port &lt;port&gt;             Set the port to listen on
+
+  --indexExtension &lt;extension&gt;  Set file extension to lookup for index files
+  --maxBuffer &lt;bytes&gt;           Set the allowed HTTP request and response payloads size in bytes
+  --requestChunkSize &lt;bytes&gt;    Set the HTTP request payload data chunks size in bytes
+  --responseChunkSize &lt;bytes&gt;   Set the HTTP response payload data chunks size in bytes
+  --requestTimeout &lt;ms&gt;         Set the HTTP request timeout delay in milliseconds
+  --trustProxy                  Trust proxy headers (X-Forwarded-For, etc.)
+
+  -d, --debugOutput             Output errors for HTTP status 500
+  -l, --logRequests             Log HTTP requests to STDOUT</code></pre>
+        
+        <h2 id="env-variables">Supported CGI environment variables</h2>
+        <p>In addition to the standard HTTP-related variables, the following CGI environment variables are supported:</p>
+        <pre><code>AUTH_TYPE
+CONTENT_LENGTH
+CONTENT_TYPE
+GATEWAY_INTERFACE
+HTTPS
+PATH
+PATH_INFO
+QUERY_STRING
+REMOTE_ADDR
+REQUEST_METHOD
+REQUEST_URI
+SCRIPT_FILENAME
+SCRIPT_NAME
+SERVER_NAME
+SERVER_PORT
+SERVER_PROTOCOL
+SERVER_SOFTWARE</code></pre>
+        
+        <h2 id="reverse-proxy">🔁 Using a Reverse Proxy (e.g., Nginx)</h2>
+        <p>While <code>cgi-core</code> is capable of serving CGI scripts directly over HTTP/1.1, it's often recommended to use a <strong>reverse proxy</strong> like <strong>Nginx</strong> in front of your Node.js server for:</p>
+        <ul>
+            <li>Improved performance via caching</li>
+            <li>Better static asset delivery</li>
+            <li>TLS termination and header management</li>
+            <li>Simplified load balancing or security</li>
+        </ul>
+        
+        <h3>Example: <code>nginx.conf</code></h3>
+        <p>Below is an example Nginx configuration that:</p>
+        <ul>
+            <li>Proxies <code>/cgi-bin</code> requests to the Node.js/<code>cgi-core</code> server running on <code>localhost:3001</code></li>
+            <li>Enables <strong>caching</strong> for <code>GET</code> responses</li>
+            <li>Serves static assets directly from the filesystem with browser caching</li>
+        </ul>
+        <div class="alert-warning">
+            <p><strong>Disclaimer</strong>: This nginx.conf is intended for <strong>local testing only</strong>, not production use. The <code>$host</code> variable reflects client input and may be untrusted. When proxying to a local backend, always use a static <code>Host</code> value to avoid security issues like header spoofing or cache poisoning.</p>
+        </div>
+        <pre><code>worker_processes 1;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=STATIC:10m max_size=100m inactive=60m use_temp_path=off;
+
+  server {
+    listen      3002;
+    server_name 127.0.0.1;
+
+    # Proxy CGI requests and enable caching
+    location /cgi-bin {
+      proxy_pass http://127.0.0.1:3001;
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+
+      proxy_cache STATIC;
+      proxy_cache_methods GET;
+      proxy_cache_key "$scheme$request_method$host$request_uri";
+      proxy_cache_valid 200 302 10m;
+      proxy_cache_valid 404 1m;
+      add_header X-Proxy-Cache $upstream_cache_status;
+    }
+
+    # Serve static files and enable browser caching
+    location / {
+      root /path/to/your/htdocs;
+      index index.htm index.html;
+
+      location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff2?)$ {
+        expires 30d;
+        add_header Cache-Control "public";
+        access_log off;
+      }
+    }
+  }
+}</code></pre>
+        
+        <h2 id="license">License</h2>
+        <p><code>cgi-core</code> is released under the <a href="https://github.com/lfortin/node-cgi-core/blob/master/LICENSE">MIT License</a>.</p>
+        <p><strong>100% Free:</strong> <code>cgi-core</code> can be used freely in both proprietary and open-source projects.</p>
+        <p><strong>Attribution is required:</strong> You must retain the author's name and the license information in any distributed code. These items do not need to be user-facing and can remain within the codebase.</p>
+    </div>
+</body>
+</html>
