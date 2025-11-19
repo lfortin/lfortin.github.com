@@ -14,11 +14,15 @@ Released under the [MIT License](https://opensource.org/license/mit).
 
 To install the latest stable version of `os-monitor`:
 
-    npm install os-monitor
+```bash
+npm install os-monitor
+```
 
 If you are using an old version of Node.js (older than v18.15.x), you might need the legacy version(1.x) of `os-monitor`; it supports Node.js back to v0.10.x:
 
-    npm install os-monitor@legacy
+```bash
+npm install os-monitor@legacy
+```
 
 
 ## Synopsis
@@ -224,7 +228,7 @@ monitor.start({
 
 There is some useful information in the provided event object:
 
-```
+```javascript
 {
   "type": "monitor", // event type
   "loadavg": [
@@ -252,7 +256,7 @@ Events API docs: [nodejs.org/api/events](http://nodejs.org/api/events.html "Even
 
 `os-monitor` can also be used as a [Readable Stream](http://nodejs.org/api/stream.html#stream_class_stream_readable "Readable Stream").
 
-```
+```javascript
 monitor.start({ stream: true });
 
 
@@ -272,7 +276,7 @@ monitor.pipe(logFile);
 
 `os-monitor` supports Promise, async/await: using `.when(eventType)` returns a Promise.
 
-```
+```javascript
 monitor.when('freemem').then(event => {
     // ...
 });
@@ -288,7 +292,7 @@ async function callback() {
 
 Need concurrent monitor instances? Multiple instances can be created using the `Monitor` class:
 
-```
+```javascript
 const { Monitor } = require('os-monitor');
 
 let monitor1 = new Monitor();
