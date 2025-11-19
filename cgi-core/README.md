@@ -87,11 +87,11 @@ Usage example using [Express](https://github.com/lfortin/node-cgi-core/blob/mast
 
 ### urlPath
 
-Base url for routing. Default: '/cgi-bin'
+Base url for routing. Default: `'/cgi-bin'`
 
 ### filePath
 
-File path where the CGI scripts are located. It is strongly advised to set a value for `filePath` (example: './cgi-bin'). Default: `process.cwd()`
+File path where the CGI scripts are located. It is strongly advised to set a value for `filePath` (example: `'./cgi-bin'`). Default: `process.cwd()`
 
 ### extensions
 
@@ -117,7 +117,7 @@ Default:
 
 ### indexExtension
 
-File extension to lookup for an index CGI script in any given directory. Default: 'js'
+File extension to lookup for an index CGI script in any given directory. Default: `'js'`
 
 ### debugOutput
 
@@ -268,7 +268,7 @@ While `cgi-core` is capable of serving CGI scripts directly over HTTP/1.1, it's 
 
 Below is an example Nginx configuration that:
 
-- Proxies `/cgi-bin` requests to the Node.js/`cgi-core` server running on `localhost:3001`
+- Proxies `/cgi-bin` requests to the Node.js/cgi-core server running on `localhost:3001`
 - Enables **caching** for `GET` responses
 - Serves static assets directly from the filesystem with browser caching
 

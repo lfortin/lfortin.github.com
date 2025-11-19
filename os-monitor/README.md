@@ -100,45 +100,45 @@ monitor.start({stream: true}).pipe(process.stdout);
 
 ###  delay
 
-Delay in milliseconds between each monitor cycle. Default: 3000
+Delay in milliseconds between each monitor cycle. Default: `3000`
 
 ###  freemem
 
-Amount of memory in bytes under which event 'freemem' is triggered. Can also be a percentage of total memory. Default: 0
+Amount of memory in bytes under which event 'freemem' is triggered. Can also be a percentage of total memory. Default: `0`
 
 ###  uptime
 
-Number of seconds over which event 'uptime' is triggered. Default: undefined
+Number of seconds over which event 'uptime' is triggered. Default: `undefined`
 
 ###  diskfree
 
-Object containing free blocks values, for given file system paths, under which event 'diskfree' is triggered. *Supported from Node.js v18.15.x and later. ([ref.](https://nodejs.org/api/fs.html#fsstatfspath-options-callback "statfs"))* Default: {}
+Object containing free blocks values, for given file system paths, under which event 'diskfree' is triggered. *Supported from Node.js v18.15.x and later. ([ref.](https://nodejs.org/api/fs.html#fsstatfspath-options-callback "statfs"))* Default: `{}`
 
 ###  critical1
 
-Value of 1 minute load average over which event 'loadavg1' is triggered. Default: os.cpus().length
+Value of 1 minute load average over which event 'loadavg1' is triggered. Default: `os.cpus().length`
 
 (A Unix-specific concept, the load average is a measure of system activity, calculated by the operating system and expressed as a fractional number. As a rule of thumb, the load average should ideally be less than the number of logical CPUs in the system. ref.: [http://nodejs.org/api/os.html#os_os_loadavg](http://nodejs.org/api/os.html#os_os_loadavg "load average"))
 
 ###  critical5
 
-Value of 5 minutes load average over which event 'loadavg5' is triggered. Default: os.cpus().length
+Value of 5 minutes load average over which event 'loadavg5' is triggered. Default: `os.cpus().length`
 
 ###  critical15
 
-Value of 15 minutes load average over which event 'loadavg15' is triggered. Default: os.cpus().length
+Value of 15 minutes load average over which event 'loadavg15' is triggered. Default: `os.cpus().length`
 
 ###  silent
 
-Set true to mute event 'monitor'. Default: false
+Set true to mute event 'monitor'. Default: `false`
 
 ###  stream
 
-Set true to enable the monitor as a [Readable Stream](http://nodejs.org/api/stream.html#stream_class_stream_readable "Readable Stream"). Default: false
+Set true to enable the monitor as a [Readable Stream](http://nodejs.org/api/stream.html#stream_class_stream_readable "Readable Stream"). Default: `false`
 
 ###  immediate
 
-Set true to execute a monitor cycle at start(). Default: false
+Set true to execute a monitor cycle at start(). Default: `false`
 
 
 ## API
@@ -177,7 +177,7 @@ Adds a one-time listener for the specified event type. This listener is invoked 
 
 ### .throttle( eventType, handler, delay )
 
-Adds a throttled listener. The throttled listener will not be executed more than once every delay milliseconds.
+Adds a throttled listener. The throttled listener will not be executed more than once every `delay` milliseconds.
 
 ### .unthrottle( eventType, handler )
 
@@ -185,7 +185,7 @@ Removes a throttled listener previously added using `.throttle()`. `handler` mus
 
 ### .when( eventType )
 
-Returns a Promise that resolves with an event object when `eventType` is triggered.
+Returns a `Promise` that resolves with an event object when `eventType` is triggered.
 
 ### .destroy( )
 
@@ -274,7 +274,7 @@ monitor.pipe(logFile);
 
 ## Promise
 
-`os-monitor` supports Promise, async/await: using `.when(eventType)` returns a Promise.
+`os-monitor` supports Promise, async/await: using `.when(eventType)` returns a `Promise`.
 
 ```javascript
 monitor.when('freemem').then(event => {
