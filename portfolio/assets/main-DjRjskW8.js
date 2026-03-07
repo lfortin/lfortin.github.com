@@ -22,8 +22,13 @@
 `,r=Backbone.View.extend({id:`home`,tagName:`div`,events:{"click a.button-counter":`onCounterClick`},onCounterClick(e){e.stopPropagation(),e.preventDefault();let t=$(e.target).closest(`.card`).attr(`data-model-id`),n=this.collection.get(t);n.set(`counter`,n.get(`counter`)+1)},initialize(){this.collection=new t,this.listenTo(this.collection,`update reset change`,this.render)},template:Handlebars.compile(n),render(){let e=this.template({usecases:this.collection.toJSON()});return this.$el.html(e),this}}),i=`
 <div class="container mt-4">
   <h2>About</h2>
-  <p>This portfolio is built using <a href="https://github.com/lfortin/vite-backbone#readme" target="_blank">vite-backbone</a>, a Vite + Backbone starter template using Bootstrap, Handlebars, and more.</p>
-  <p> <a href="https://github.com/lfortin/vite-backbone#readme" target="_blank">vite-backbone</a> is released under the MIT-0 License.</p>
+  <p>
+    This portfolio is built using <a href="https://github.com/lfortin/vite-backbone#readme" target="_blank">vite-backbone</a>, a Vite + Backbone starter template using Bootstrap, Handlebars, and more.
+    <a href="https://github.com/lfortin/vite-backbone#readme" target="_blank">vite-backbone</a> is released under the MIT-0 License.
+  </p>
+  <p>
+    Many thanks to <a href="https://pages.github.com/" target="_blank"><i class="bi bi-github"> Github Pages</i></a> for hosting this portfolio.
+  </p>
 </div>
 `,a=Backbone.View.extend({id:`about`,tagName:`div`,render(){return this.$el.html(i),this}}),o=Backbone.Model.extend({defaults:{name:``,description:``,icon:null},sync:function(){let e=Backbone.sync.apply(this,arguments);return this._xhr=e,e.always(()=>{this._xhr=null}),e},abort:function(){this._xhr&&(this._xhr.abort(),this._xhr=null,this.trigger(`abort`))}}),s=Backbone.Collection.extend({model:o,sync:function(){let e=Backbone.sync.apply(this,arguments);return this._xhr=e,e.always(()=>{this._xhr=null}),e},abort:function(){this._xhr&&(this._xhr.abort(),this._xhr=null,this.trigger(`abort`))}}),c=Backbone.View.extend({id:`skills`,tagName:`div`,initialize(){this.collection=new s,this.listenTo(this.collection,`update reset change`,this.render)},template:Handlebars.compile(`
 <div class="container mt-4">
