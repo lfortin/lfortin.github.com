@@ -13,7 +13,7 @@ A lightweight, zero-dependency middleware for hosting <a href="https://github.co
 Released under the <a href="https://opensource.org/license/mit">MIT License</a>.
 </p>
 
-[Node.js (install and test)](https://github.com/lfortin/node-cgi-core/actions/workflows/node.js.yml)
+[![Node.js (install and test)](https://github.com/lfortin/node-cgi-core/actions/workflows/node.js.yml/badge.svg?event=push)](https://github.com/lfortin/node-cgi-core/actions/workflows/node.js.yml)
 
 ## Features
 
