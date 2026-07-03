@@ -1,5 +1,3 @@
-
-
 <p align="center">
 <img src="https://github.com/lfortin/node-cgi-core/blob/master/images/logo.jpg?raw=true" height="120">
 </p>
@@ -332,7 +330,9 @@ http {
 }
 ```
 
-## Notable releases
+## Notable Releases
+
+v1.4.0 - `logRequests`: Added ISO timestamps (2026-07-02)
 
 v1.3.0 - `cgi-server`: Added JSON config file support (2026-06-10)
 
