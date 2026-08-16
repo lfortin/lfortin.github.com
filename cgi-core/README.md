@@ -88,16 +88,24 @@ Usage example using [Express](https://github.com/lfortin/node-cgi-core/blob/mast
 
 ### urlPath
 
-Base url for routing. Default: `'/cgi-bin'`
+Base url for routing.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `'/cgi-bin'`
 
 ### filePath
 
-File path where the CGI scripts are located. It is strongly advised to set a value for `filePath` (example: `'./cgi-bin'`). Default: `process.cwd()`
+File path where the CGI scripts are located. It is strongly advised to set a value for `filePath` (example: `'./cgi-bin'`).
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `process.cwd()`
 
 ### extensions
 
 Object containing file extension values for given interpreter paths. If no interpreter path is found for a file extension, the CGI script will be called as a standalone executable.
-Default:
+
+- Usage: JSON config file, programmatic API
+- Default:
 
 ```javascript
 // on POSIX systems
@@ -119,35 +127,59 @@ Default:
 
 ### indexExtension
 
-File extension to lookup for an index CGI script in any given directory. Default: `'js'`
+File extension to lookup for an index CGI script in any given directory.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `'js'`
 
 ### debugOutput
 
-Set true to enable debug output. Default: `false`
+Set true to enable debug output.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `false`
 
 ### logRequests
 
-Set true to print HTTP request logs to STDOUT. Default: `false`
+Set true to print HTTP request logs to STDOUT.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `false`
 
 ### maxBuffer
 
-Size of the allowed HTTP request and response payloads in bytes. Default: `2 * 1024 * 1024` (2 MB)
+Size of the allowed HTTP request and response payloads in bytes.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `2 * 1024 * 1024` (2 MB)
 
 ### requestChunkSize
 
-Size of the HTTP request payload data chunks in bytes, used for internal buffering when reading request data. Default: `32 * 1024` (32 KB)
+Size of the HTTP request payload data chunks in bytes, used for internal buffering when reading request data.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `32 * 1024` (32 KB)
 
 ### responseChunkSize
 
-Size of the HTTP response payload data chunks in bytes, applicable when `Transfer-Encoding: chunked` is used. If `Content-Length` is set, chunking is disabled, and the response is sent as a single block. Default: `32 * 1024` (32 KB)
+Size of the HTTP response payload data chunks in bytes, applicable when `Transfer-Encoding: chunked` is used. If `Content-Length` is set, chunking is disabled, and the response is sent as a single block.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `32 * 1024` (32 KB)
 
 ### requestTimeout
 
-Timeout delay for the HTTP request in milliseconds. If the request takes longer than the specified time, the server will respond with a `504 Gateway Timeout` error. Default: `30000` (30 seconds)
+Timeout delay for the HTTP request in milliseconds. If the request takes longer than the specified time, the server will respond with a `504 Gateway Timeout` error.
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `30000` (30 seconds)
 
 ### statusPages
 
-Object containing custom HTTP response payloads per status code. Default: `{}`
+Object containing custom HTTP response payloads per status code.
+
+- Usage: JSON config file, programmatic API
+- Default: `{}`
 
 ```javascript
 // Example:
@@ -169,7 +201,10 @@ Object containing custom HTTP response payloads per status code. Default: `{}`
 
 ### env
 
-Object containing custom environment variables to pass to the CGI scripts. Default: `{}`
+Object containing custom environment variables to pass to the CGI scripts.
+
+- Usage: programmatic API
+- Default: `{}`
 
 ```javascript
 // Example:
@@ -196,11 +231,14 @@ An updater function can also be passed to the `env` option to update the environ
 
 Set to `true` to trust proxy-related HTTP headers (`X-Forwarded-For`, `X-Forwarded-Proto`, and `Host`). This affects CGI environment variables such as:
 
-- `REMOTE_ADDR` — will use the leftmost IP in `X-Forwarded-For`
-- `HTTPS` — will be `"on"` if `X-Forwarded-Proto` is `"https"`
-- `SERVER_NAME` and `SERVER_PORT` — will be parsed from the `Host` header
+`REMOTE_ADDR` — will use the leftmost IP in `X-Forwarded-For`
 
-Default: `false`
+`HTTPS` — will be `"on"` if `X-Forwarded-Proto` is `"https"`
+
+`SERVER_NAME` and `SERVER_PORT` — will be parsed from the `Host` header
+
+- Usage: CLI argument, JSON config file, programmatic API
+- Default: `false`
 
 > ⚠️ **Important:** Only enable this if you are **running behind a trusted reverse proxy** (like Nginx or a load balancer). Enabling `trustProxy` when exposed to the public internet can allow **header spoofing** by clients.
 
