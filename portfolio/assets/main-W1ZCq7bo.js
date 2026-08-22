@@ -150,8 +150,8 @@
   {
   slug: `2026-08-22-foss-projects-update`,
   date: `2026-08-22`,
-  title: `Update: open-source projects`,
-  excerpt: `An update about my open-source personal projects.`,
+  title: `Update: Open-Source Projects`,
+  excerpt: `An update about my open-source projects.`,
   content: `
     <p>Here are some noteworthy updates about my open-source projects.</p>
     <ul>
