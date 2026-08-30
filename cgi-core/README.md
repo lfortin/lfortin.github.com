@@ -134,14 +134,14 @@ File extension to lookup for an index CGI script in any given directory.
 
 ### debugOutput
 
-Set true to enable debug output.
+Set to `true` to enable debug output.
 
 - Usage: CLI argument, JSON config file, programmatic API
 - Default: `false`
 
 ### logRequests
 
-Set true to print HTTP request logs to STDOUT.
+Set to `true` to print HTTP request logs to STDOUT.
 
 - Usage: CLI argument, JSON config file, programmatic API
 - Default: `false`
@@ -169,7 +169,7 @@ Size of the HTTP response payload data chunks in bytes, applicable when `Transfe
 
 ### requestTimeout
 
-Timeout delay for the HTTP request in milliseconds. If the request takes longer than the specified time, the server will respond with a `504 Gateway Timeout` error.
+Timeout delay for the HTTP request in milliseconds. If the request takes longer than the specified time, the server will respond with a `504 Gateway Timeout` error. Set to `0` to disable the request timeout.
 
 - Usage: CLI argument, JSON config file, programmatic API
 - Default: `30000` (30 seconds)
@@ -370,6 +370,8 @@ http {
 ```
 
 ## Notable Releases
+
+v1.5.0 - `requestTimeout`: Setting `0` now disables the timeout (2026-08-30)
 
 v1.4.0 - `logRequests`: Added ISO timestamps (2026-07-02)
 
