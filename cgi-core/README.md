@@ -11,6 +11,7 @@ A lightweight, zero-dependency middleware for hosting <a href="https://github.co
 Released under the <a href="https://opensource.org/license/mit" target="_blank">MIT License</a>.
 </p>
 
+[![NPM version](https://img.shields.io/npm/v/cgi-core?color=2dc322&label=)](https://npmx.dev/package/cgi-core)
 [![Node.js (install and test)](https://github.com/lfortin/node-cgi-core/actions/workflows/node.js.yml/badge.svg?event=push)](https://github.com/lfortin/node-cgi-core/actions/workflows/node.js.yml)
 [![Socket Badge](https://badge.socket.dev/npm/package/cgi-core)](https://socket.dev/npm/package/cgi-core)
 
