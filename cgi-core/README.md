@@ -232,7 +232,7 @@ An updater function can also be passed to the `env` option to update the environ
 
 Set to `true` to trust proxy-related HTTP headers (`X-Forwarded-For`, `X-Forwarded-Proto`, and `Host`). This affects CGI environment variables such as:
 
-`REMOTE_ADDR` — will use the leftmost IP in `X-Forwarded-For`
+`REMOTE_ADDR` and `REMOTE_HOST` — will use the leftmost IP in `X-Forwarded-For`
 
 `HTTPS` — will be `"on"` if `X-Forwarded-Proto` is `"https"`
 
@@ -294,6 +294,8 @@ PATH
 PATH_INFO
 QUERY_STRING
 REMOTE_ADDR
+REMOTE_HOST
+REMOTE_PORT
 REQUEST_METHOD
 REQUEST_URI
 SCRIPT_FILENAME
