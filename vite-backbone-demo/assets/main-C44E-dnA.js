@@ -1,4 +1,4 @@
-(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=Backbone.Collection.extend({sync:function(){let e=Backbone.sync.apply(this,arguments);return this._xhr=e,e.always(()=>{this._xhr=null}),e},abort:function(){this._xhr&&(this._xhr.abort(),this._xhr=null,this.trigger(`abort`))}}),t=Backbone.Model.extend({sync:function(){let e=Backbone.sync.apply(this,arguments);return this._xhr=e,e.always(()=>{this._xhr=null}),e},abort:function(){this._xhr&&(this._xhr.abort(),this._xhr=null,this.trigger(`abort`))}}),n=t.extend({defaults:{title:``,description:``,link:null,hasCounter:!1,counter:0}}),r=e.extend({model:n}),i=(e,...t)=>String.raw({raw:e},...t),a=i`
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=Backbone.Collection.extend({sync:function(){let e=Backbone.sync.apply(this,arguments);return this._xhr=e,e.always(()=>{this._xhr=null}),e},abort:function(){this._xhr&&(this._xhr.abort(),this._xhr=null,this.trigger(`abort`))}}),t=Backbone.Model.extend({sync:function(){let e=Backbone.sync.apply(this,arguments);return this._xhr=e,e.always(()=>{this._xhr=null}),e},abort:function(){this._xhr&&(this._xhr.abort(),this._xhr=null,this.trigger(`abort`))}}),n=t.extend({defaults:{title:``,description:``,link:null,hasCounter:!1,counter:0}}),r=e.extend({model:n}),i=(e,...t)=>String.raw({raw:e},...t),a=i`
   <div class="container mt-4">
     <h2 class="mb-4">vite-backbone Starter Template: Use Cases</h2>
     <div class="row">
@@ -83,7 +83,7 @@
       </div>
     </div>
   </div>
-`,v=Backbone.View.extend({id:`blog`,tagName:`div`,initialize(){this.collection=new m,this.currentPage=1,this.listenTo(this.collection,`update reset change`,this.render)},setPage(e){let t=this._getTotalPages();this.currentPage=Math.min(Math.max(e,1),t||1),this.render()},_getTotalPages(){if(!this.collection)return 1;let e=this.collection.length;return e>0?Math.ceil(e/h):1},template:Handlebars.compile(g),render(){let e=this._getTotalPages(),t=this.currentPage||1,n=(t-1)*h,r=n+h,i=(this.collection?this.collection.slice(n,r):[]).map(e=>e.toJSON()),a=[];for(let n=1;n<=e;n+=1)a.push({number:n,isCurrent:n===t});let o=this.template({posts:i,hasPagination:e>1,pages:a,isFirstPage:t===1,isLastPage:t===e,prevPage:t-1,nextPage:t+1});return this.$el.html(o),this}}),y=i`
+`,v=Backbone.View.extend({id:`blog`,tagName:`div`,initialize(){this.collection=new m,this.currentPage=1,this.listenTo(this.collection,`update reset change`,this.render)},setPage(e){let t=this._getTotalPages(),n=Math.min(Math.max(e,1),t||1);this.currentPage=n,this.render()},_getTotalPages(){if(!this.collection)return 1;let e=this.collection.length;return e>0?Math.ceil(e/h):1},template:Handlebars.compile(g),render(){let e=this._getTotalPages(),t=this.currentPage||1,n=(t-1)*h,r=n+h,i=(this.collection?this.collection.slice(n,r):[]).map(e=>e.toJSON()),a=[];for(let n=1;n<=e;n+=1)a.push({number:n,isCurrent:n===t});let o=this.template({posts:i,hasPagination:e>1,pages:a,isFirstPage:t===1,isLastPage:t===e,prevPage:t-1,nextPage:t+1});return this.$el.html(o),this}}),y=i`
   <div class="container mt-4 blog-post">
     <div class="row">
       <div class="col-lg-8">
@@ -195,4 +195,64 @@
         Start with model and collection tests, then add view tests for critical
         UI behavior.
       </p>
-    `,tags:[`testing`,`vitest`]}],C=new o,w=new c,T=new u,E=new v,D=new b,O=new f;new(Backbone.Router.extend({routes:{"":`home`,about:`about`,help:`help`,blog:`blogIndex`,"blog/page/:page":`blogIndex`,"blog/:slug":`blogPost`,"*path":`notFound`},initialize(){$(`#app`).empty(),$(`#app`).append(C.$el),$(`#app`).append(w.$el),$(`#app`).append(T.$el),$(`#app`).append(E.$el),$(`#app`).append(D.$el),$(`#app`).append(O.$el)},_showView(e){e?.$el&&($(`#app > div`).not(e.el).hide(),e.$el.show())},home(){C.collection.reset(x),this._showView(C)},about(){this._showView(w.render())},help(){this._showView(T.render())},blogIndex(e=1){E.collection.reset(S),E.setPage(e),this._showView(E)},blogPost(e){let t=_.findWhere(S,{slug:e});if(!t){this.notFound();return}D.model.set(t),this._showView(D)},notFound(){this._showView(O.render())}})),Backbone.history.start(),$(function(){});
+    `,tags:[`testing`,`vitest`]},{slug:`2026-01-10-demo-pagination-15th-post`,date:`2026-01-10`,title:`Demo Pagination - 15th Post`,excerpt:`Extra post to demo pagination - 15th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-14th-post`,date:`2026-01-10`,title:`Demo Pagination - 14th Post`,excerpt:`Extra post to demo pagination - 14th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-13th-post`,date:`2026-01-10`,title:`Demo Pagination - 13th Post`,excerpt:`Extra post to demo pagination - 13th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-12th-post`,date:`2026-01-10`,title:`Demo Pagination - 12th Post`,excerpt:`Extra post to demo pagination - 12th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-11th-post`,date:`2026-01-10`,title:`Demo Pagination - 11th Post`,excerpt:`Extra post to demo pagination - 11th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-10th-post`,date:`2026-01-10`,title:`Demo Pagination - 10th Post`,excerpt:`Extra post to demo pagination - 10th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-9th-post`,date:`2026-01-10`,title:`Demo Pagination - 9th Post`,excerpt:`Extra post to demo pagination - 9th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-8th-post`,date:`2026-01-10`,title:`Demo Pagination - 8th Post`,excerpt:`Extra post to demo pagination - 8th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-7th-post`,date:`2026-01-10`,title:`Demo Pagination - 7th Post`,excerpt:`Extra post to demo pagination - 7th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-6th-post`,date:`2026-01-10`,title:`Demo Pagination - 6th Post`,excerpt:`Extra post to demo pagination - 6th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-5th-post`,date:`2026-01-10`,title:`Demo Pagination - 5th Post`,excerpt:`Extra post to demo pagination - 5th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-4th-post`,date:`2026-01-10`,title:`Demo Pagination - 4th Post`,excerpt:`Extra post to demo pagination - 4th post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-3rd-post`,date:`2026-01-10`,title:`Demo Pagination - 3rd Post`,excerpt:`Extra post to demo pagination - 3rd post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-2nd-post`,date:`2026-01-10`,title:`Demo Pagination - 2nd Post`,excerpt:`Extra post to demo pagination - 2nd post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]},{slug:`2026-01-10-demo-pagination-1st-post`,date:`2026-01-10`,title:`Demo Pagination - 1st Post`,excerpt:`Extra post to demo pagination - 1st post`,content:`
+      <p>
+        This is an extra post to demonstrate pagination.
+      </p>
+    `,tags:[`pagination`]}],C=new o,w=new c,T=new u,E=new v,D=new b,O=new f;new(Backbone.Router.extend({routes:{"":`home`,about:`about`,help:`help`,blog:`blogIndex`,"blog/page/:page":`blogIndex`,"blog/:slug":`blogPost`,"*path":`notFound`},initialize(){$(`#app`).empty(),$(`#app`).append(C.$el),$(`#app`).append(w.$el),$(`#app`).append(T.$el),$(`#app`).append(E.$el),$(`#app`).append(D.$el),$(`#app`).append(O.$el)},_showView(e){e?.$el&&($(`#app > div`).not(e.el).hide(),e.$el.show())},home(){C.collection.reset(x),this._showView(C)},about(){this._showView(w.render())},help(){this._showView(T.render())},blogIndex(e=1){E.collection.reset(S),E.setPage(e),this._showView(E)},blogPost(e){let t=_.findWhere(S,{slug:e});if(!t){this.notFound();return}D.model.set(t),this._showView(D)},notFound(){this._showView(O.render())}})),Backbone.history.start(),$(function(){});
